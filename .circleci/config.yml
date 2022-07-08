@@ -4,10 +4,10 @@ commands:
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
-     workflow_id:
-       description:   Unique identifer
-       type: String
-       default: "${CIRCLE_WORKFLOW_ID:0:7}"
+      workflow_id:
+        description:   Unique identifer
+        type: string
+        default: "${CIRCLE_WORKFLOW_ID:0:7}"
     steps:
       - run:
           name: Destroy environments
