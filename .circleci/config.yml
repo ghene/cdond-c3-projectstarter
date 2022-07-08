@@ -157,13 +157,13 @@ jobs:
             aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --output test >> .circleci/ansible/roles/inventory.txt
-            exit 1
+
       - persist_to_workspace:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
 
-      - destroy-environment:
+      - destroy-environment
 
 workflows:
   build backend & frontend:
