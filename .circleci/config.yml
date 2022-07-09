@@ -13,7 +13,6 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
-            aws s3 rm s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
             aws cloudformation delete-stack udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
             aws cloudformation delete-stack udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
 
@@ -309,6 +308,7 @@ jobs:
           command: |
             apk add --update nodejs npm 
             apk add --update curl
+            python -m pip install awscli
       - run:
           name: Get backend url
           command: |
