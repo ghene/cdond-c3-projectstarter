@@ -181,14 +181,14 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk update ansible
+            apk add --update ansible
 
       - run:
           name: Configure server
           command: |
-            # Your code here
-            exit 1
-      # Here's where you will add some code to rollback on failure
+            cd .circleci/ansible
+            ansible-playbook -i inventory.txt configure-server.yml 
+      # Here's where you will add some code to rollback on failures
 
 workflows:
   build backend & frontend:
@@ -203,4 +203,5 @@ workflows:
     #      requires: [build-frontend]      
     #  - scan-backend:
     #      requires: [build-backend]
-      - deploy-infrastructure
+    #  - deploy-infrastructure
+      - configure-infrastructure
