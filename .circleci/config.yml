@@ -165,6 +165,31 @@ jobs:
 
       - destroy-environment
 
+  configure-infrastructure:
+    docker:
+      - image: python:3.10.5-bullseye
+    steps:
+      - checkout
+      # checkout code
+      # Add ssh keys with fingerprint
+      # attach workspace
+      - add_ssh_key:
+          fingerprint: ["29:4c:a8:52:8e:3b:b3:17:cc:1a:cb:0d:32:05:5e:fb"]
+      - attach_workspace:
+          at: ~/    
+
+      - run:
+          name: Install dependencies
+          command: |
+            apk update ansible
+
+      - run:
+          name: Configure server
+          command: |
+            # Your code here
+            exit 1
+      # Here's where you will add some code to rollback on failure
+
 workflows:
   build backend & frontend:
     jobs:
