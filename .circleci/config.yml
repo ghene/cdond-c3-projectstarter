@@ -173,7 +173,7 @@ jobs:
       # checkout code
       # Add ssh keys with fingerprint
       # attach workspace
-      - add_ssh_key:
+      - add_ssh_keys:
           fingerprint: ["29:4c:a8:52:8e:3b:b3:17:cc:1a:cb:0d:32:05:5e:fb"]
       - attach_workspace:
           at: ~/    
@@ -203,5 +203,5 @@ workflows:
     #      requires: [build-frontend]      
     #  - scan-backend:
     #      requires: [build-backend]
-    #  - deploy-infrastructure
+      - deploy-infrastructure
       - configure-infrastructure
