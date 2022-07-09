@@ -218,9 +218,9 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
+      - run: yum install -y tar gzip 
       - attach_workspace:
-          at: ~/
-      - run: yum install -y tar gzip    
+          at: ~/   
       - run:
           name: Install dependencies
           command: |
@@ -237,7 +237,7 @@ jobs:
       #    name: Deploy frontend objects
       #    command: |
             # your code here
-      - destroy-environment
+      
 
 workflows:
   build backend & frontend:
