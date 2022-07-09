@@ -1,0 +1,39 @@
+---
+- name: "copy archived files"
+  become: yes
+  copy:
+    src: ~/project/artifact.tar.gz
+    dest: ~/
+    owner: ubuntu
+    group: ubuntu
+    mode: 0777
+
+- name: "install npm"
+  become: yes
+  apt:
+    name: "npm"
+    state: latest
+    update_cache: yes
+
+- name: "install pm2"
+  become: yes
+  npm:
+    name: python
+    global: yes
+    production: yes
+    state: present
+
+- name: "Extract artifact"
+  become: true
+  shell: |
+    tar xvfz ~/artifact.tar.gz
+
+- name: "Start"
+  become: true
+  shell: |
+    chmod 777 /artifact
+    cd /artifact
+    npm install
+    pm2 stop default
+    pm2 start npm -- start
+
