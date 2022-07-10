@@ -186,7 +186,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: sleavely/node-awscli:14.x
+      - image: python:3.7-apline3.11
     steps:
       - checkout
       # checkout code
@@ -194,7 +194,13 @@ jobs:
       # attach workspace
       - run:
           command: |
-            npm add tar gzip
+            apk add --update ansible
+      - run:
+          name: Install open ssh 
+          command: apk add --update openssh-client git
+      - run:
+          name: install awscli
+          command: python -m pip install awscli
       - add_ssh_keys:
           fingerprint: ["29:4c:a8:52:8e:3b:b3:17:cc:1a:cb:0d:32:05:5e:fb"]
       - attach_workspace:
