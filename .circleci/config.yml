@@ -194,7 +194,7 @@ jobs:
       # attach workspace
       - run:
           command: |
-            apk add --update tar gzip
+            npm add tar gzip
       - add_ssh_keys:
           fingerprint: ["29:4c:a8:52:8e:3b:b3:17:cc:1a:cb:0d:32:05:5e:fb"]
       - attach_workspace:
@@ -285,9 +285,8 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update tar gzip
-            apk add --update nodejs npm 
-            apk add --update ansible
+            npm add tar gzip
+            
       - run:
           name: Deploy backend
           command: |
