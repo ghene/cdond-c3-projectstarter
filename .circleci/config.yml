@@ -186,7 +186,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: python:alpine3.16
     steps:
       - checkout
       # checkout code
@@ -326,8 +326,7 @@ jobs:
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --output text)
             export API_URL="http://${BACKEND_IP}:3030"
-            echo "${API_URL}"
-            
+            echo "API_URL = ${API_URL}"
             if curl "${API_URL}/api/status" | grep "ok"
             then
               return 0
