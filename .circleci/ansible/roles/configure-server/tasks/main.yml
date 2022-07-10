@@ -9,14 +9,6 @@
   apt:
     upgrade: yes
 
-
-- name: "install python"
-  become: yes
-  apt:
-    name: python
-    state: latest
-    update_cache: yes 
-
 - name: "install dependencies."
   become: yes
   apt:
