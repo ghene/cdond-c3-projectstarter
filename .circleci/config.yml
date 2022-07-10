@@ -199,12 +199,6 @@ jobs:
           fingerprint: ["29:4c:a8:52:8e:3b:b3:17:cc:1a:cb:0d:32:05:5e:fb"]
       - attach_workspace:
           at: ~/    
-
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update ansible
-
       - run:
           name: Configure server
           command: |
