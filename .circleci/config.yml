@@ -186,7 +186,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: python:alpine3.16
+      - image: sleavely/node-awscli:14.x
     steps:
       - checkout
       # checkout code
@@ -275,7 +275,7 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: python:alpine3.16
+      - image: sleavely/node-awscli:14.x
     steps:
       - checkout
       - add_ssh_keys:
@@ -306,7 +306,7 @@ jobs:
 
   smoke-test:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: sleavely/node-awscli:14.x
     steps:
       - checkout  
       - run:
