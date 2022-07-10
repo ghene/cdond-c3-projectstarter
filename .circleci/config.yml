@@ -180,7 +180,7 @@ jobs:
       - persist_to_workspace:
           root: ~/
           paths:
-            - ~/project/.circleci/ansible/inventory.txt
+            - project/.circleci/ansible/inventory.txt
 
       - destroy-environment
 
@@ -192,6 +192,9 @@ jobs:
       # checkout code
       # Add ssh keys with fingerprint
       # attach workspace
+      - run:
+          command: |
+            apk add --update tar gzip
       - add_ssh_keys:
           fingerprint: ["29:4c:a8:52:8e:3b:b3:17:cc:1a:cb:0d:32:05:5e:fb"]
       - attach_workspace:
