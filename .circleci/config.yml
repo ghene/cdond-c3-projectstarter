@@ -13,9 +13,10 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
-            aws s3 rm "s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}" --recursive
-            aws cloudformation delete-stack "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
-            aws cloudformation delete-stack "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
+            echo "Destroying environment: << parameters.workflow_id >> " 
+            aws s3 rm s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
+            aws cloudformation delete-stack --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
+            aws cloudformation delete-stack --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
 
   revert-migrations:
     description: Revert the last migration
@@ -28,7 +29,7 @@ commands:
           name: Revert migrations
           when: on_fail
           command: |
-            SUCCESS=$(curl --insecure https://kvdb.io/HoH8XUdCH28nZGvZMQTDRL/migration_<< parameters.workflow_id >>)
+            SUCCESS=$(curl --insecure https://kvdb.io/6CWYp8y8NMLp4sQ3js279q/migration_<< parameters.workflow_id >>)
             if (( $SUCCESS == 1 ));
             then
               cd ~/project/backend
@@ -214,7 +215,7 @@ jobs:
             cd .circleci/ansible
             cat inventory.txt
             ansible-playbook -i inventory.txt configure-server.yml 
-      # Here's where you will add some code to rollback on failures
+      - destroy-environment
 
   run-migrations:
     docker:
@@ -234,11 +235,12 @@ jobs:
           command: |
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
             then
-            curl https://kvdb.io/6CWYp8y8NMLp4sQ3js279q/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
+              curl https://kvdb.io/6CWYp8y8NMLp4sQ3js279q/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
+            else
+              curl https://kvdb.io/6CWYp8y8NMLp4sQ3js279q/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '0'
             fi
-            
-          
-     # Here's where you will add some code to rollback on failure 
+      - destroy-environment  
+     
   deploy-frontend:
     docker:
       - image: amazon/aws-cli
@@ -351,6 +353,7 @@ jobs:
               exit 1
             fi
       - destroy-environment  
+      - revert-migrations
 
 workflows:
   default:
