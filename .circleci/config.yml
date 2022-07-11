@@ -357,7 +357,7 @@ jobs:
 
   cloudfront-update:
     docker:
-      - image: amazon:awscli
+      - image: amazon/awscli
     steps:
       - run:
           name: Update cloudfront distribution
@@ -398,5 +398,3 @@ workflows:
       - cloudfront-update: 
           requires: [smoke-test]
    
-
-
