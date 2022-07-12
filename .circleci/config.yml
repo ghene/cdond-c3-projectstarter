@@ -356,7 +356,7 @@ jobs:
       - revert-migrations
 
   cloudfront-update: 
-      docker:
+    docker:
       - image: amazon/aws-cli
     steps:
       - checkout
@@ -374,7 +374,7 @@ jobs:
               --stack-name "cloudfrontStack" \
               --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}"
       - destroy-environment
-      
+
   cleanup:
     docker:
       - image: cimg/node:13.8.0
