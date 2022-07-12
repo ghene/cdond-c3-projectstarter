@@ -355,25 +355,26 @@ jobs:
       - destroy-environment  
       - revert-migrations
 
-  cloudfront-update:
-    docker:
-      - image: cimg/node:13.8.0
+  cloudfront-update: 
+      docker:
+      - image: amazon/aws-cli
     steps:
-      - run: sudo apt update -y
-      - run: sudo apt upgrade -y
+      - checkout
       - run:
-          name: install awscli
-          command: sudo apt install awscli -y
+          name: install tar & gzip
+          command: |
+            yum install -y gzip tar
+
       - run:
           name: Update cloudfront distribution
           command: |
             aws cloudformation deploy \
-            --template-file .circleci/files/cloudfront.yml \
-            --stack-name InitialStack \
-            --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
-            --tags project=udapeople
-      - destroy-environment 
-
+              --template-file .circleci/files/cloudfront.yml \
+              --tags project=udapeople \
+              --stack-name "cloudfrontStack" \
+              --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}"
+      - destroy-environment
+      
   cleanup:
     docker:
       - image: cimg/node:13.8.0
