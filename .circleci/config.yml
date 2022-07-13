@@ -369,6 +369,10 @@ jobs:
               --no-paginate --output text)
             echo $OldWorkflowID >> ~/OldWorkflowID.txt
             cat ~/OldWorkflowID.txt 
+      - persist_to_workspace:
+          root: ~/
+          paths: ~/OldWorkflowID.txt
+            - 
       - run:
           name: Update cloudfront distribution
           command: |
@@ -388,6 +392,8 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
+      - attach_workspace:
+          at: ~/
       - run:
           name: Get old stack workflow id
           command: |
