@@ -361,7 +361,8 @@ jobs:
     steps:
       - checkout
       - run: yum install -y gzip tar
-          name: install tar & gzip
+      - run:
+          name: getting value of OldworkflowId
           command: |
             aws cloudformation \
               list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
