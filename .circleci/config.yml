@@ -355,7 +355,7 @@ jobs:
               exit 1
             fi
       - run:
-          name: frontend smoke test
+          name: frontend smoke test.
           command: |
             URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees"            
             echo ${URL} 
@@ -392,7 +392,7 @@ jobs:
             aws cloudformation deploy \
               --template-file .circleci/files/cloudfront.yml \
               --tags project=udapeople \
-              --stack-name "InitialStack-${OldWorkflowID}" \
+              --stack-name "InitialStack-$OldWorkflowID" \
               --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}"
               
       - destroy-environment
