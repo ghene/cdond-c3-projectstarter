@@ -151,6 +151,16 @@ jobs:
           name: install tar & gzip
           command: |
             yum install -y gzip tar
+      
+      - run:
+          name: get the old WorkflowID
+          command: |
+            export OldWorkflowID=$(aws cloudformation \
+              list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
+              --no-paginate --output text)
+            echo $OldWorkflowID > ~/OldWorkflowID.txt
+            echo OldWorkflowID: "${OldWorkflowID}"
+            echo Current Workflow Id: "${CIRCLE_WORKFLOW_ID:0:7}"
 
       - run:
           name: Ensure back-end infrastructure exists
@@ -183,7 +193,7 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
-
+            - OldWorkflowID.txt
       - destroy-environment
 
   configure-infrastructure:
@@ -366,29 +376,20 @@ jobs:
       - run:
           name: install gzip & tar
           command: |
-            yum install -y gzip tar     
+            yum install -y gzip tar  
+      - attach_workspace:
+          at: ~/
+      - run:
+          command: cat ~/OldWorkflowID.txt    
       - run:
           name: Update cloudfront distribution
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/cloudfront.yml \
               --tags project=udapeople \
-              --stack-name InitialStack-$OldWorkflowID \
+              --stack-name "InitialStack-${OldWorkflowID}" \
               --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}"
-      - run:
-          name: get the old WorkflowID
-          command: |
-            export OldWorkflowID=$(aws cloudformation \
-              list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
-              --no-paginate --output text)
               
-            echo $OldWorkflowID > ~/OldWorkflowID.txt
-            echo OldWorkflowID: "${OldWorkflowID}"
-            echo Current Workflow Id: "${CIRCLE_WORKFLOW_ID:0:7}"
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - OldWorkflowID.txt
       - destroy-environment
 
   cleanup:
