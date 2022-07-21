@@ -11,16 +11,17 @@
 
 - name: "install dependencies."
   become: true
-  apt:
-    name: ["nodejs", "npm"]
-    state: latest
-    update_cache: yes
+  shell: |
+    curl: -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+    sudo apt-get install -y nodejs
+    
+    sudo npm install -g n
+    sudo n 13.8.0
 
 - name: "install pm2"
   become: true
   npm:
     name: pm2
     global: yes
-    production: yes
     state: present
 

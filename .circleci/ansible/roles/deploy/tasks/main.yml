@@ -14,5 +14,6 @@
   become: true
   shell: |
     cd /home/ubuntu
+    pm2 stop all
     pm2 start npm -- start
 
