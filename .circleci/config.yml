@@ -430,7 +430,7 @@ jobs:
             yum install -y gzip tar
       - attach_workspace:
           at: ~/
-      - run:	
+      - run:
           name: Remove old stacks and files	
           command: |	
             # Fetch the Old workflow ID	
