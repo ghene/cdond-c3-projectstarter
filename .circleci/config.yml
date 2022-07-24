@@ -447,7 +447,8 @@ jobs:
               aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive	
               aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"	
             else	
-            echo "This features release is the latest and will not be deleted
+              echo "This features release is the latest and will not be deleted"
+            fi
 
 workflows:
   default:
