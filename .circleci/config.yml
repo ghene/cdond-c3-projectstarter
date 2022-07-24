@@ -200,7 +200,7 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
-            - ~/OldWorkflowID.txt
+            - old_workflow_id.txt
       - destroy-environment
 
   configure-infrastructure:
@@ -403,8 +403,8 @@ jobs:
       - run:
           name: Get the old workflowID
           command: |
-            cat ~/OldWorkflowID.txt 
-            OldWorkflowID=$(cat ~/OldWorkflowID.txt)
+            cat ~/old_workflow_id.txt 
+            OldWorkflowID=$(cat ~/old_workflow_id.txt)
             echo OldWorkflowID: "${OldWorkflowID}"
             echo $OldWorkflowID
 
