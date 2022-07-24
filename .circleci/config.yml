@@ -30,7 +30,7 @@ commands:
           when: on_fail
           command: |
             SUCCESS=$(curl --insecure  https://kvdb.io/6CWYp8y8NMLp4sQ3js279q/migration_<< parameters.workflow_id >>)
-            if (( $SUCCESS == 0 ));
+            if (( $SUCCESS == false ));
             then
               cd ~/project/backend
               npm install
@@ -260,9 +260,9 @@ jobs:
             cat ~/project/backend/migrations_dump.txt
             if grep -q "successfully." ~/project/backend/migrations_dump.txt
             then
-              curl --insecure https://kvdb.io/6CWYp8y8NMLp4sQ3js279q/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
+              curl --insecure https://kvdb.io/6CWYp8y8NMLp4sQ3js279q/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d 'true'
             else
-              curl --insecure https://kvdb.io/6CWYp8y8NMLp4sQ3js279q/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '0'  
+              curl --insecure https://kvdb.io/6CWYp8y8NMLp4sQ3js279q/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d 'false'  
             fi
       - destroy-environment  
       - revert-migrations
