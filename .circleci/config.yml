@@ -200,7 +200,7 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
-            - OldWorkflowID.txt
+            - ~/OldWorkflowID.txt
       - destroy-environment
 
   configure-infrastructure:
